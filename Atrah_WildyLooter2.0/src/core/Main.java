@@ -1,4 +1,4 @@
-package script;
+package core;
 
 import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
@@ -6,7 +6,7 @@ import sections.*;
 import src.Looter;
 
 @ScriptManifest(author = "Explv", name = "Explv's Tutorial Island", info = "Completes Tutorial Island", version = 6.0, logo = "")
-public final class TutorialIsland extends Script {
+public final class Main extends Script {
 
     private final TutorialSection rsGuideSection = new RuneScapeGuideSection();
     private final TutorialSection survivalSection = new SurvivalSection();
@@ -17,6 +17,7 @@ public final class TutorialIsland extends Script {
     private final TutorialSection bankSection = new BankSection();
     private final TutorialSection priestSection = new PriestSection();
     private final TutorialSection wizardSection = new WizardSection();
+    private final Looter looter = new Looter();
 
     @Override
     public void onStart() throws InterruptedException {
@@ -29,18 +30,16 @@ public final class TutorialIsland extends Script {
         bankSection.exchangeContext(getBot());
         priestSection.exchangeContext(getBot());
         wizardSection.exchangeContext(getBot());
+        looter.exchangeContext(getBot());
     }
 
     @Override
     public final int onLoop() throws InterruptedException {
         if (isTutorialIslandCompleted()) {
-            Looter looter = new Looter();
-            looter.exchangeContext(getBot());
-            looter.onStart();
+            looter.onLoop();
             return 0;
-        }
-
-        switch (getTutorialSection()) {
+        } else {
+        	switch (getTutorialSection()) {
             case 0:
             case 1:
                 rsGuideSection.onLoop();
@@ -79,6 +78,7 @@ public final class TutorialIsland extends Script {
             case 20:
                 wizardSection.onLoop();
                 break;
+        	}
         }
         return 200;
     }
