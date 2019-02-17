@@ -62,6 +62,9 @@ public class Looter extends Script {
 				log("Walking to wildy");
 				getWalking().webWalk(Banks.EDGEVILLE);
 			}
+			else if (trade.isCurrentlyTrading() && trade.isSecondInterfaceOpen()) {
+				trade.acceptTrade();
+			}
 			else if (isUnderAttack()) {
 				getWalking().walk(safeWildy);
 				if(inventory.contains("Lobster") ||  inventory.contains("Lobster"))
@@ -129,7 +132,7 @@ public class Looter extends Script {
 		} 
 		if (player != null) {
 			player.interact("Trade with");
-			Sleep.sleepUntil(trade.isFirstInterfaceOpen(), 5000);
+			Sleep.sleepUntil(trade.isFirstInterfaceOpen(), 10000);
 		}
 		if (trade.isFirstInterfaceOpen()) {
 			if(getInventory().contains("Adamant arrow"))
@@ -143,8 +146,7 @@ public class Looter extends Script {
 			if(!trade.acceptTrade())
 				Sleep.sleepUntil(trade.acceptTrade(), 3000);
 				Sleep.sleepUntil(trade.acceptTrade(), 3000);
-			Sleep.sleepUntil(trade.isSecondInterfaceOpen(), 5000);
-			Sleep.sleepUntil(trade.acceptTrade(), 3000);
+			Sleep.sleepUntil(trade.isSecondInterfaceOpen(), 10000);
 		}
 		if (trade.isSecondInterfaceOpen()) {
 			Sleep.sleepUntil(trade.acceptTrade(), 3000);
