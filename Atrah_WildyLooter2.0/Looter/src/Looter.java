@@ -79,7 +79,7 @@ public class Looter extends Script {
 				bank();
 				Sleep.sleepUntil(getInventory().isEmpty(), 60000);
 			}
-			else if (finishedLootingRun() || notDoneBanking()) {
+			else if (finishedLootingRun()) {
                 if (!trade.isCurrentlyTrading())
                 	tradeMule();
             }
@@ -198,10 +198,6 @@ public class Looter extends Script {
 	private boolean freshInventory() {
 		return getInventory().contains("Bucket") || getInventory().contains("Pot") || getInventory().contains("Air rune");
 	}
-    
-    private boolean notDoneBanking() {
-        return !getInventory().isEmptyExcept("Lobster") || !(myPlayer().getPosition().getY() > 3520);
-    }
     
     private boolean canCollect() {
         return getMap().getWildernessLevel() > 0;
