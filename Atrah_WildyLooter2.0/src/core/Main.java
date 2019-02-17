@@ -17,7 +17,7 @@ public final class Main extends Script {
     private final TutorialSection bankSection = new BankSection();
     private final TutorialSection priestSection = new PriestSection();
     private final TutorialSection wizardSection = new WizardSection();
-    private final Looter looter = new Looter();
+    //private final Looter looter = new Looter();
 
     @Override
     public void onStart() throws InterruptedException {
@@ -34,12 +34,12 @@ public final class Main extends Script {
 
     @Override
     public final int onLoop() throws InterruptedException {
-        if (isTutorialIslandCompleted()) {
+       /* if (isTutorialIslandCompleted()) {
         	log("Tutorial is done starting looter");
         	looter.exchangeContext(getBot());
             looter.onLoop();
             return 0;
-        } else {
+        } else {*/
         	switch (getTutorialSection()) {
             case 0:
             case 1:
@@ -80,7 +80,6 @@ public final class Main extends Script {
                 wizardSection.onLoop();
                 break;
         	}
-        }
         return 200;
     }
 
