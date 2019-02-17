@@ -143,7 +143,7 @@ public class Looter extends Script {
 			if(!trade.acceptTrade())
 				Sleep.sleepUntil(trade.acceptTrade(), 3000);
 				Sleep.sleepUntil(trade.acceptTrade(), 3000);
-			Sleep.sleepUntil(trade.isSecondInterfaceOpen(), 60000);
+			Sleep.sleepUntil(trade.isSecondInterfaceOpen(), 30000);
 			Sleep.sleepUntil(trade.acceptTrade(), 3000);
 		}
 		if (trade.isSecondInterfaceOpen()) {
@@ -199,7 +199,7 @@ public class Looter extends Script {
 	}
     
     private boolean doneBanking() {
-        return !getInventory().contains("Swordfish") || !getInventory().contains("Adamant arrow") || myPlayer().getPosition().getY() > 3520;
+        return getInventory().contains("Swordfish") || getInventory().contains("Adamant arrow");
     }
     
     private boolean canCollect() {
