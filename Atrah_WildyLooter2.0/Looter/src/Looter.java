@@ -18,7 +18,7 @@ public class Looter extends Script {
 	public int lobstersPrice = 170;
 	public int swordfishPrice = 381;
 	public int achoviesPrice = 900;
-	public int inventoryLimit = 13000;
+	public int inventoryLimit = 10000;
 	public String muleName = "";
 	public Position wildy = new Position(3087, 3536, 0);
 	
@@ -79,7 +79,7 @@ public class Looter extends Script {
 				bank();
 				Sleep.sleepUntil(getInventory().isEmpty(), 60000);
 			}
-			else if (finishedLootingRun() || !doneBanking()) {
+			else if (finishedLootingRun() || notDoneBanking()) {
                 if (!trade.isCurrentlyTrading())
                 	tradeMule();
             }
@@ -143,7 +143,7 @@ public class Looter extends Script {
 			if(!trade.acceptTrade())
 				Sleep.sleepUntil(trade.acceptTrade(), 3000);
 				Sleep.sleepUntil(trade.acceptTrade(), 3000);
-			Sleep.sleepUntil(trade.isSecondInterfaceOpen(), 30000);
+			Sleep.sleepUntil(trade.isSecondInterfaceOpen(), 5000);
 			Sleep.sleepUntil(trade.acceptTrade(), 3000);
 		}
 		if (trade.isSecondInterfaceOpen()) {
@@ -176,6 +176,7 @@ public class Looter extends Script {
         final GroundItem swordfish = getGroundItems().closest("Swordfish");
         final GroundItem lobster = getGroundItems().closest("Lobster");
         final GroundItem adamantArrow = getGroundItems().closest("Adamant arrow");
+        
         if (anchovy != null)
             lootItem(anchovy, "Swordfish");
         else if (swordfish != null)
@@ -198,8 +199,8 @@ public class Looter extends Script {
 		return getInventory().contains("Bucket") || getInventory().contains("Pot") || getInventory().contains("Air rune");
 	}
     
-    private boolean doneBanking() {
-        return getInventory().contains("Swordfish") || getInventory().contains("Adamant arrow");
+    private boolean notDoneBanking() {
+        return !getInventory().isEmptyExcept("Lobster") || !(myPlayer().getPosition().getY() > 3520);
     }
     
     private boolean canCollect() {
