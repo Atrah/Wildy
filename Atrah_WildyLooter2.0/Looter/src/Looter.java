@@ -30,6 +30,10 @@ public class Looter extends Script {
     private Walker walker;
     private boolean didTrade;
 	private Area lumbridge = new Area(2891, 3482, 3441, 3170);
+	
+	public Looter() {
+		
+	}
 
 	@Override
 	public void onStart() throws InterruptedException {

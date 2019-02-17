@@ -30,12 +30,13 @@ public final class Main extends Script {
         bankSection.exchangeContext(getBot());
         priestSection.exchangeContext(getBot());
         wizardSection.exchangeContext(getBot());
-        looter.exchangeContext(getBot());
     }
 
     @Override
     public final int onLoop() throws InterruptedException {
         if (isTutorialIslandCompleted()) {
+        	log("Tutorial is done starting looter");
+        	looter.exchangeContext(getBot());
             looter.onLoop();
             return 0;
         } else {
