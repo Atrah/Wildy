@@ -1,7 +1,6 @@
 package src;
 
 import org.osbot.rs07.script.*;
-import java.awt.image.*;
 import org.osbot.rs07.api.map.*;
 import javax.swing.*;
 import java.lang.reflect.*;
@@ -9,7 +8,6 @@ import org.osbot.rs07.api.map.constants.*;
 import org.osbot.rs07.api.model.*;
 import java.awt.*;
 
-@ScriptManifest(name = "Atrah Wildy looter", author = "Atrahasis", info = "wildy looter", version = 0.1, logo = "")
 public class Looter extends Script {
 	
 	public int arrowsCollected = 0;
@@ -30,6 +28,7 @@ public class Looter extends Script {
     private Walker walker;
     private boolean didTrade;
 	private Area lumbridge = new Area(2891, 3482, 3441, 3170);
+	private Position safeWildy = new Position(3086, 3523, 0);
 	
 	public Looter() {
 		
@@ -60,16 +59,14 @@ public class Looter extends Script {
 	@Override
 	public final int onLoop() throws InterruptedException {
 		try {
-			if(trade.isCurrentlyTrading() && trade.didOtherAcceptTrade()) {
-				trade.acceptTrade();
-			}
 			if (lumbridge.contains(myPosition())) {
 				log("Walking to wildy");
 				getWalking().webWalk(Banks.EDGEVILLE);
 			}
 			else if (isUnderAttack()) {
-				getWalking().webWalk(wildy);
-				Eat();
+				getWalking().walk(safeWildy);
+				if(inventory.contains("Lobster") ||  inventory.contains("Lobster"))
+					Eat();
 			}
 			else if (getMap().getWildernessLevel() > 5) {
 				log("Getting lured but i'm a smart bot, walking to lower wilderness");
@@ -78,6 +75,10 @@ public class Looter extends Script {
 			else if (getSettings().getRunEnergy() > 30 && !getSettings().isRunning()) {
 				getSettings().setRunning(true);
 				Sleep.sleepUntil(getSettings().isRunning(), 3000);
+			}
+			else if (freshInventory()) {
+				bank();
+				Sleep.sleepUntil(getInventory().isEmpty(), 60000);
 			}
 			else if (finishedLootingRun() || !doneBanking()) {
                 log("onloop1");
@@ -94,7 +95,7 @@ public class Looter extends Script {
             }
         }
         catch (Exception e) {
-            log(e.toString());
+            log(e.getMessage().toString());
         }
         return random(400);
 	}
@@ -151,8 +152,7 @@ public class Looter extends Script {
 		if (trade.isSecondInterfaceOpen()) {
 			Sleep.sleepUntil(trade.acceptTrade(), 3000);
 			Sleep.sleepUntil(trade.acceptTrade(), 3000);
-			if(!trade.acceptTrade())
-				Sleep.sleepUntil(trade.acceptTrade(), 3000);
+			Sleep.sleepUntil(getInventory().isEmptyExcept("Lobster"), 60000);
 			AdsUpInventory();
 			didTrade = true;
 		}
@@ -197,6 +197,10 @@ public class Looter extends Script {
         else if (inventory.contains("Swordfish"))
         	getInventory().getItem("Swordfish").interact("Eat");
     }
+	
+	private boolean freshInventory() {
+		return getInventory().contains("Bucket") || getInventory().contains("Pot") || getInventory().contains("Air rune");
+	}
     
     private boolean doneBanking() {
         return getInventory().isEmpty() || myPlayer().getPosition().getY() > 3520;
