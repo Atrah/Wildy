@@ -32,7 +32,7 @@ public final class TutorialIsland extends Script {
     @Override
     public final int onLoop() throws InterruptedException {
         if (isTutorialIslandCompleted()) {	
-        	Main.SCRIPT = null;
+        	stop(false);
             return 0;
         } else {
         	switch (getTutorialSection()) {
@@ -86,5 +86,4 @@ public final class TutorialIsland extends Script {
     private boolean isTutorialIslandCompleted() {
         return getConfigs().get(281) == 1000 && myPlayer().isVisible();
     }
-    
 }

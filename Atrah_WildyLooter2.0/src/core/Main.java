@@ -11,7 +11,7 @@ import src.Looter;
 @ScriptManifest(name = "Atrah Wildy looter", author = "Atrahasis", info = "wildy looter", version = 0.1, logo = "")
 public class Main extends Script{
 	
-	public static Script SCRIPT;
+	public Script SCRIPT;
 	
 	private Area TUTO_ISLAND = new Area(3054, 3133, 3155, 3055);
 	private Looter looterScript;
@@ -41,5 +41,12 @@ public class Main extends Script{
 		
 		return SCRIPT.onLoop();
 	}
-
+	
+	@Override
+	public void onExit() throws InterruptedException {
+		if (SCRIPT instanceof TutorialIsland) {
+			SCRIPT = null;
+			onLoop();
+		}
+	}
 }

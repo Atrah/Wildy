@@ -53,7 +53,6 @@ public class Looter extends Script {
 			return;
 		}
 		muleName = gui.getVMuleValue();
-		
 	}
 
 	@Override
@@ -81,16 +80,13 @@ public class Looter extends Script {
 				Sleep.sleepUntil(getInventory().isEmpty(), 60000);
 			}
 			else if (finishedLootingRun() || !doneBanking()) {
-                log("onloop1");
                 if (!trade.isCurrentlyTrading())
                 	tradeMule();
             }
 			else if (canCollect()) {
-                log("onloop2");
                 lootItems();
             }
             else if (!trade.isCurrentlyTrading()){
-                log("onloop3");
                 walker.moveToWild();
             }
         }
@@ -147,7 +143,8 @@ public class Looter extends Script {
 			if(!trade.acceptTrade())
 				Sleep.sleepUntil(trade.acceptTrade(), 3000);
 				Sleep.sleepUntil(trade.acceptTrade(), 3000);
-			Sleep.sleepUntil(trade.isSecondInterfaceOpen(), 5000);
+			Sleep.sleepUntil(trade.isSecondInterfaceOpen(), 60000);
+			Sleep.sleepUntil(trade.acceptTrade(), 3000);
 		}
 		if (trade.isSecondInterfaceOpen()) {
 			Sleep.sleepUntil(trade.acceptTrade(), 3000);
@@ -167,7 +164,6 @@ public class Looter extends Script {
 	
 	private void lootItem(final GroundItem item, final String itemName) {
 		try {
-			log("Running to" + itemName);
 			item.interact("Take");
 		}
 		catch (Exception e) {
@@ -203,7 +199,7 @@ public class Looter extends Script {
 	}
     
     private boolean doneBanking() {
-        return getInventory().isEmpty() || myPlayer().getPosition().getY() > 3520;
+        return !getInventory().contains("Swordfish") || !getInventory().contains("Adamant arrow") || myPlayer().getPosition().getY() > 3520;
     }
     
     private boolean canCollect() {
